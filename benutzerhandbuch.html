@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benutzerhandbuch Unterschriftenmappe</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+<style>
+/* Layout: one reading column; each step pairs its text with a phone screenshot on wide screens. */
+:root {
+  --bg: #FAFAF8; --fg: #0E1B2C; --muted: #4A5568; --accent: #1A3550;
+  --rule: #E1E4E9; --card: #FFFFFF; --note-bg: #E7ECF3; --warn-bg: #FBF5E8; --warn-fg: #7A4E07;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10151C; --fg: #E8EAED; --muted: #9AA4B2; --accent: #8FB0CE;
+  --rule: #2A313B; --card: #181F28; --note-bg: #1C2733; --warn-bg: #3A2F14; --warn-fg: #E8C87A; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --bg: #10151C; --fg: #E8EAED; --muted: #9AA4B2; --accent: #8FB0CE;
+  --rule: #2A313B; --card: #181F28; --note-bg: #1C2733; --warn-bg: #3A2F14; --warn-fg: #E8C87A; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 1rem; line-height: 1.65; margin: 0; padding: 0 16px; }
+main { max-width: 52rem; margin: 0 auto; padding-block: 3rem 5rem; }
+header { border-bottom: 1px solid var(--rule); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+.eyebrow { font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(1.8rem, 5vw, 2.4rem); line-height: 1.2; margin: 0 0 .5rem; text-wrap: balance; }
+.stand { color: var(--muted); font-size: .92rem; margin: 0; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 1.55rem; line-height: 1.3; margin: 3rem 0 .8rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); text-wrap: balance; scroll-margin-top: 1rem; }
+h3 { font-size: 1.05rem; font-weight: 600; margin: 1.6rem 0 .4rem; }
+p, li { margin: 0 0 .85rem; max-width: 65ch; }
+ul, ol { padding-left: 1.3rem; margin: 0 0 .9rem; }
+li { margin-bottom: .4rem; }
+li::marker { color: var(--accent); }
+a { color: var(--accent); }
+nav.toc { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1rem; }
+nav.toc p { font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 .5rem; }
+nav.toc ol { columns: 2 16rem; column-gap: 2rem; margin: 0; padding-left: 1.2rem; }
+nav.toc li { margin-bottom: .25rem; break-inside: avoid; }
+.note, .warn { border-radius: 8px; padding: .8rem 1rem; margin: 0 0 1rem; max-width: 65ch; }
+.note { background: var(--note-bg); }
+.warn { background: var(--warn-bg); color: var(--warn-fg); }
+.note p, .warn p { margin: 0; }
+.step { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 2rem; align-items: start; margin-bottom: 1.5rem; }
+.step > div { min-width: 0; }
+figure { margin: 0 0 1rem; }
+figure img { display: block; width: 100%; height: auto; border-radius: 22px; border: 1px solid var(--rule); box-shadow: 0 6px 24px rgba(14, 27, 44, .12); }
+figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; text-align: center; }
+.sample { font-size: .85rem; color: var(--muted); }
+dl { margin: 0 0 1rem; max-width: 65ch; }
+dt { font-weight: 600; margin-top: .8rem; }
+dd { margin: 0; color: var(--muted); }
+table { border-collapse: collapse; width: 100%; margin: 0 0 1rem; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; }
+.tablewrap { overflow-x: auto; }
+footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1rem; color: var(--muted); font-size: .88rem; }
+@media (max-width: 40rem) { .step { grid-template-columns: 1fr; } figure { max-width: 16rem; margin-inline: auto; } }
+</style>
+</head>
+<body>
+<main>
+<header>
+<p class="eyebrow">Unterschriftenmappe</p>
+<h1>Benutzerhandbuch</h1>
+<p class="stand">Version 0.1.0 · Stand 11. Oktober 2026</p>
+</header>
+
+<nav class="toc" aria-label="Inhalt">
+<p>Inhalt</p>
+<ol>
+<li><a href="#ueberblick">Was die App kann</a></li>
+<li><a href="#umfang">Aktueller Funktionsumfang</a></li>
+<li><a href="#anmelden">Anmelden und sperren</a></li>
+<li><a href="#mappe">Die Mappe</a></li>
+<li><a href="#pruefen">Einen Auftrag prüfen</a></li>
+<li><a href="#freigeben">Freigeben</a></li>
+<li><a href="#ablehnen">Ablehnen</a></li>
+<li><a href="#mehrere">Mehrere Aufträge freigeben</a></li>
+<li><a href="#verlauf">Verlauf</a></li>
+<li><a href="#banken">Bankverbindungen</a></li>
+<li><a href="#einrichten">Neue Verbindung einrichten</a></li>
+<li><a href="#import">Bestehende Verbindung importieren</a></li>
+<li><a href="#details">Verbindungsdetails und Löschen</a></li>
+<li><a href="#sicherheit">Sicherheit und Datenschutz</a></li>
+<li><a href="#hilfe">Fehler und Lösungen</a></li>
+<li><a href="#glossar">Begriffe</a></li>
+</ol>
+</nav>
+<p class="sample">Die Bildschirmfotos zeigen die Beispielverbindungen der App. Namen, Beträge und Banken sind frei erfunden.</p>
+
+<h2 id="ueberblick">Was die App kann</h2>
+<p>Die Unterschriftenmappe ist eine mobile Mappe für Zahlungsaufträge, die Ihre Bank per EBICS im Verfahren der Verteilten Elektronischen Unterschrift (VEU) bereithält. Sie sehen offene Aufträge Ihrer Banken an einem Ort, prüfen sie und geben sie mit Face ID frei oder lehnen sie ab.</p>
+<ul>
+<li>Offene Aufträge mehrerer Banken in einer Liste.</li>
+<li>Prüfung jedes Auftrags gegen die Prüfsumme der Bank, bevor Sie unterschreiben.</li>
+<li>Freigabe oder Ablehnung einzeln oder für mehrere Aufträge zugleich.</li>
+<li>Ein lokaler Verlauf Ihrer Entscheidungen.</li>
+</ul>
+<p>Es gibt kein Benutzerkonto und keinen Server des Anbieters. Die App spricht nur mit Ihrer Bank. Ihre Schlüssel bleiben auf dem iPhone.</p>
+<h3>Voraussetzungen</h3>
+<ul>
+<li>iPhone mit iOS 17 oder neuer, mit eingerichtetem Gerätecode und Face ID (oder Touch ID).</li>
+<li>Ein EBICS-Zugang Ihrer Bank mit Unterschriftsberechtigung (Klasse A, B, C oder E) und aktivierter VEU.</li>
+<li>Die EBICS-Zugangsdaten aus dem Begrüßungsschreiben Ihrer Bank: Bankserver-URL, Host-ID, Kunden-ID und Teilnehmer-ID.</li>
+</ul>
+
+<h2 id="umfang">Aktueller Funktionsumfang</h2>
+<div class="warn"><p><strong>Echte Bankverbindungen sind derzeit nur lesbar.</strong> Die App ruft Aufträge ab und prüft sie, aber das Freigeben und Ablehnen ist für echte Verbindungen noch gesperrt. Die Beispielverbindungen zeigen den vollständigen Ablauf mit erfundenen Daten.</p></div>
+<p>Bei einer echten Verbindung fehlen deshalb die Schaltflächen „Freigeben“ und „Ablehnen“. Stattdessen steht auf dem Auftrag der Hinweis „Nur Lesezugriff“. Die Verbindung trägt in der Bankenliste die Kennzeichnung „Echte Verbindung · nur Lesezugriff“. Sobald das Unterschreiben freigeschaltet ist, wird dieses Handbuch ergänzt.</p>
+<p>Nicht enthalten ist außerdem das Sperren des Zugangs bei der Bank aus der App heraus. Bitten Sie in diesem Fall Ihre Bank darum.</p>
+<h2 id="anmelden">Anmelden und sperren</h2>
+<div class="step">
+<div>
+<p>Beim Start öffnet die App Face ID automatisch. Nach erfolgreicher Prüfung sehen Sie Ihre Mappe. Eine Eingabe von PIN oder Passwort gibt es nicht.</p>
+<p>Wenn die Prüfung scheitert oder Sie sie abbrechen, bleibt der Bildschirm links stehen. Tippen Sie auf „Erneut mit Face ID anmelden“. Ist Face ID gesperrt, nicht eingerichtet oder für die App ausgeschaltet, erklärt die App den Grund und führt Sie zu den Einstellungen.</p>
+<h3>Automatische Sperre</h3>
+<p>Die App sperrt sich nach 3 Minuten ohne Berührung oder im Hintergrund. Beim Sperren verwirft sie alle geladenen Aufträge. Nach dem Entsperren ruft sie die Aufträge neu ab.</p>
+<p>Im App-Umschalter verdeckt ein Sichtschutz den Inhalt, damit dort keine Beträge zu sehen sind.</p>
+</div>
+<figure><img src="images/01-gate.png" alt="Anmeldebildschirm nach abgebrochener Face-ID-Prüfung" loading="lazy" width="600" height="1298"><figcaption>Anmeldung mit Face ID</figcaption></figure>
+</div>
+<div class="step"><div>
+<p>So sieht die gesperrte App aus. Ein Tipp auf „Mit Face ID entsperren“ führt Sie zurück zu der Stelle, an der Sie waren.</p>
+</div>
+<figure><img src="images/17-gesperrt.png" alt="Gesperrte App mit Schloss-Symbol" loading="lazy" width="600" height="1298"><figcaption>Gesperrt nach 3 Minuten</figcaption></figure>
+</div>
+<h2 id="mappe">Die Mappe</h2>
+<div class="step">
+<div>
+<p>Die Mappe zeigt alle Aufträge, die auf Ihre Unterschrift warten. Sie ist nach Eingangszeit sortiert und in „Heute“, „Gestern“ und frühere Tage gegliedert.</p>
+<ul>
+<li><strong>Bank-Chips oben:</strong> Pro aktiver Bank zeigt ein Chip, wann der letzte Abruf erfolgreich war. Bei einem Fehler tippen Sie auf den Chip, um es erneut zu versuchen.</li>
+<li><strong>Auftragskarte:</strong> Bank und Firma, Betrag, Auftragsart mit Anzahl der Posten und die fehlenden Unterschriften als Balken.</li>
+<li><strong>Aktualisieren:</strong> Mit dem Symbol oben rechts rufen Sie alle Banken neu ab.</li>
+<li><strong>Wischen:</strong> Nach rechts öffnet die Freigabe, nach links lehnt ab. Das geht nur bei Aufträgen ohne Hinweise.</li>
+</ul>
+<p>Ist eine Bank nicht erreichbar, verschwinden ihre Aufträge aus der Liste. Die App zeigt nie veraltete Aufträge. Aufträge mit einem Hinweis tragen statt der Wisch-Aktionen den Vermerk „Einzeln prüfen“.</p>
+</div>
+<figure><img src="images/02-mappe.png" alt="Mappe mit Aufträgen von zwei Banken" loading="lazy" width="600" height="1298"><figcaption>Mappe</figcaption></figure>
+</div>
+<h2 id="pruefen">Einen Auftrag prüfen</h2>
+<div class="step">
+<div>
+<p>Tippen Sie auf eine Karte, um den Auftrag zu öffnen. Die App lädt dann die Einzelheiten von der Bank.</p>
+<dl>
+<dt>Kopf</dt><dd>Bank, Firma, Betrag, Auftragsart, Anzahl der Posten und Ausführungsdatum.</dd>
+<dt>Prüfzeile</dt><dd>„Auftragsdaten mit Bankprüfsumme abgeglichen“ heißt: Die geladene Datei stimmt mit der Prüfsumme überein, die die Bank für diesen Auftrag meldet. Nur dann ist der Auftrag zur Unterschrift freigegeben.</dd>
+<dt>Unterschriften</dt><dd>Wer bereits unterschrieben hat und wer noch aussteht, mit Klasse und Zeitpunkt.</dd>
+<dt>Posten</dt><dd>Empfänger, IBAN, Betrag und Verwendungszweck. Posten mit Hinweis der Empfängerprüfung stehen oben und sind farbig hinterlegt.</dd>
+<dt>Rohdaten</dt><dd>Oben rechts zeigt „Rohdaten“ die Auftragsdatei so, wie sie geprüft wurde.</dd>
+</dl>
+</div>
+<figure><img src="images/03-detail.png" alt="Auftragsdetail mit Unterschriften, Prüfzeile und Posten" loading="lazy" width="600" height="1298"><figcaption>Auftragsdetail</figcaption></figure>
+</div>
+<div class="note"><p><strong>Wichtig:</strong> Weicht die Prüfsumme ab, blendet die App die Schaltflächen aus und zeigt „Auftragsdaten konnten nicht geprüft werden“. Der Auftrag lässt sich dann nicht unterschreiben. Wenden Sie sich an Ihre Bank. Kann die App den Inhalt nicht unabhängig prüfen, steht „Posten nicht unabhängig geprüft“. Dann müssen Sie das vor der Freigabe ausdrücklich bestätigen.</p></div>
+<h3>Hinweis der Empfängerprüfung</h3>
+<p>Die Empfängerprüfung (Verification of Payee) gleicht Name und IBAN eines Empfängers ab. Meldet die Bank eine Abweichung, zeigt die App den Namen, den Sie eingegeben haben, und den Namen, den die Bank kennt. Prüfen Sie den Posten sorgfältig. Wer trotz Hinweis freigibt, trägt das Risiko. Die App protokolliert deshalb Ihre Bestätigung.</p>
+<h2 id="freigeben">Freigeben</h2>
+<div class="step">
+<div>
+<p>Tippen Sie im Auftrag auf „Freigeben“ oder wischen Sie in der Mappe nach rechts. Es öffnet sich die Bestätigung.</p>
+<ol>
+<li>Prüfen Sie Betrag, Posten, Ausführungsdatum und Auftragsnummer.</li>
+<li>Gibt es einen Hinweis der Empfängerprüfung, setzen Sie das Häkchen. Es nennt den Posten und den Namen der Bank und wird im Verlauf festgehalten.</li>
+<li>Bei Echtzeitüberweisungen steht ein Hinweis: Sie werden sofort nach der letzten Unterschrift ausgeführt und können nicht zurückgerufen werden.</li>
+<li>Tippen Sie auf „Mit Face ID unterschreiben“ und bestätigen Sie mit Face ID.</li>
+</ol>
+<p>Für jede Freigabe fragt die App Face ID neu. Die Anmeldung beim Start gilt dafür nicht. Danach erscheint eine Bestätigung. Fehlen weitere Unterschriften, bleibt der Auftrag mit neuem Stand in der Mappe, sonst verschwindet er.</p>
+</div>
+<figure><img src="images/04-freigabe.png" alt="Bestätigung mit Hinweis der Empfängerprüfung" loading="lazy" width="600" height="1298"><figcaption>Freigabe bestätigen</figcaption></figure>
+</div>
+<h2 id="ablehnen">Ablehnen</h2>
+<div class="step">
+<div>
+<p>Tippen Sie im Auftrag auf „Ablehnen“ oder wischen Sie in der Mappe nach links. Es erscheint direkt die Face-ID-Abfrage, ohne weiteren Dialog. Brechen Sie ab, wird nichts gesendet.</p>
+<p>Nach der Bestätigung meldet die Bank die Ablehnung zurück. Der Auftrag wird nicht ausgeführt und verschwindet für alle Unterzeichner aus der Mappe. Eine Ablehnung lässt sich nicht rückgängig machen. Die Übersicht zeigt Bank, Auftrag, Auftragsnummer und Zeitpunkt. Sie steht auch im Verlauf.</p>
+</div>
+<figure><img src="images/07-abgelehnt.png" alt="Ergebnis nach einer Ablehnung" loading="lazy" width="600" height="1298"><figcaption>Auftrag abgelehnt</figcaption></figure>
+</div>
+<h2 id="mehrere">Mehrere Aufträge freigeben</h2>
+<div class="step">
+<div>
+<p>Tippen Sie in der Mappe oben links auf „Auswählen“.</p>
+<ul>
+<li>Tippen Sie die Aufträge an oder wählen Sie „Alle auswählen“.</li>
+<li>Aufträge mit Hinweis der Empfängerprüfung oder ungeprüften Posten lassen sich nicht auswählen. Sie tragen „Einzeln prüfen“.</li>
+<li>Unten stehen „n ablehnen“ und „n freigeben“.</li>
+</ul>
+</div>
+<figure><img src="images/05-auswahl.png" alt="Auswahlmodus mit drei gewählten Aufträgen" loading="lazy" width="600" height="1298"><figcaption>Aufträge auswählen</figcaption></figure>
+</div>
+<div class="step">
+<div>
+<p>„n freigeben“ öffnet die Sammelfreigabe. Sie fasst die Aufträge nach Bank zusammen und zeigt Anzahl und Summen. Echtzeitüberweisungen sind gekennzeichnet, und der Hinweis dazu erscheint einmal.</p>
+<p>Sie bestätigen mit einer einzigen Face-ID-Prüfung. Die App unterschreibt dann jeden Auftrag einzeln. Scheitert einer, bleiben die anderen gültig, und die App meldet jeden Auftrag für sich. „n ablehnen“ lehnt alle gewählten Aufträge nach einer Face-ID-Prüfung ab.</p>
+</div>
+<figure><img src="images/06-sammelfreigabe.png" alt="Sammelfreigabe nach Bank gruppiert" loading="lazy" width="600" height="1298"><figcaption>Sammelfreigabe</figcaption></figure>
+</div>
+<h2 id="verlauf">Verlauf</h2>
+<div class="step">
+<div>
+<p>Der Verlauf ist Ihr lokales Protokoll. Er zeigt nur Aktionen, die Sie auf diesem iPhone ausgeführt haben.</p>
+<dl>
+<dt>Freigegeben</dt><dd>Die Bank hat Ihre Unterschrift angenommen.</dd>
+<dt>Abgelehnt</dt><dd>Die Bank hat Ihre Ablehnung bestätigt.</dd>
+<dt>Fehlgeschlagen</dt><dd>Die Bank hat einen Fehler gemeldet. Der Text ist auf Deutsch.</dd>
+<dt>Unklar</dt><dd>Die Anfrage ging raus, aber es kam keine brauchbare Antwort. Die App prüft beim nächsten Abruf, ob die Bank Ihre Unterschrift erhalten hat, und löst den Eintrag auf.</dd>
+</dl>
+<p>Sie filtern nach Status, Bank, Zeitraum (Standard: 30 Tage) und Betrag. Die Suche findet Empfänger, Beträge und Auftragsnummern. Bestätigte Hinweise der Empfängerprüfung stehen mit beiden Namen im Eintrag. Der Verlauf wird nie automatisch exportiert und mit der Verbindung gelöscht.</p>
+</div>
+<figure><img src="images/08-verlauf.png" alt="Verlauf mit Filtern und Status" loading="lazy" width="600" height="1298"><figcaption>Verlauf</figcaption></figure>
+</div>
+<h2 id="banken">Bankverbindungen</h2>
+<div class="step">
+<div>
+<p>Im Reiter „Banken“ verwalten Sie Ihre Verbindungen. Jede zeigt Bank, Firma und Status.</p>
+<dl>
+<dt>Aktiv</dt><dd>Die Verbindung ist freigeschaltet, die Bankschlüssel sind bestätigt. Aufträge werden abgerufen.</dd>
+<dt>Wartet auf Bank</dt><dd>Ihre Schlüssel sind übermittelt. Die Bank schaltet frei, sobald sie Ihre unterschriebenen Briefe hat. Bis dahin ruft die App keine Aufträge ab.</dd>
+<dt>Fehler</dt><dd>Der letzte Abruf ist gescheitert. Die Karte nennt den Grund. „Erneut verbinden“ versucht es noch einmal.</dd>
+</dl>
+<p>Oben rechts legt das Plus eine neue Verbindung an, das Symbol daneben importiert eine bestehende.</p>
+</div>
+<figure><img src="images/09-banken.png" alt="Bankenliste mit drei Verbindungen" loading="lazy" width="600" height="1298"><figcaption>Banken</figcaption></figure>
+</div>
+<h2 id="einrichten">Neue Verbindung einrichten</h2>
+<p>Die Einrichtung hat vier Schritte: Zugang, Schlüssel, Übermittelt, Briefe. Danach schaltet die Bank frei, und Sie bestätigen die Bankschlüssel.</p>
+<div class="step">
+<div>
+<h3>1. Zugangsdaten</h3>
+<p>Tippen Sie auf das Plus. Tragen Sie die Angaben aus dem Begrüßungsschreiben Ihrer Bank ein: Bezeichnung, Bankserver-URL, Host-ID, Kunden-ID und Teilnehmer-ID.</p>
+<p>Sobald URL und Host-ID vorliegen, prüft die App den Server. Sie zeigt die unterstützten EBICS-Versionen und die gewählte an. „Weiter“ wird erst aktiv, wenn der Server antwortet und alle Felder gefüllt sind.</p>
+</div>
+<figure><img src="images/12-zugang.png" alt="Zugangsdaten eingeben" loading="lazy" width="600" height="1298"><figcaption>Schritt 1: Zugangsdaten</figcaption></figure>
+</div>
+<div class="step">
+<div>
+<h3>2. Schlüssel</h3>
+<p>Die App erzeugt auf dem iPhone drei Schlüssel für Signatur, Authentifikation und Verschlüsselung. Die privaten Teile verlassen das Gerät nie. „An Bank übermitteln“ sendet nur die öffentlichen Teile (INI und HIA).</p>
+<p>Die Schlüssel lassen sich nicht in iCloud sichern. Bei einem Gerätewechsel richten Sie die Verbindung neu ein oder importieren Ihre Schlüssel.</p>
+</div>
+<figure><img src="images/13-schluessel.png" alt="Erzeugte Schlüssel" loading="lazy" width="600" height="1298"><figcaption>Schritt 2: Schlüssel</figcaption></figure>
+</div>
+<div class="step">
+<div>
+<h3>3. Briefe</h3>
+<p>Die App erstellt den INI-Brief und den HIA-Brief mit den Prüfwerten Ihrer Schlüssel. Teilen Sie die Briefe als PDF oder drucken Sie sie. Unterschreiben Sie die Briefe und senden Sie sie an Ihre Bank. Die Bank vergleicht die Prüfwerte mit den übermittelten Schlüsseln.</p>
+<p>Die Briefe finden Sie später wieder über „Briefe anzeigen“ oder in den Verbindungsdetails.</p>
+</div>
+<figure><img src="images/14-briefe.png" alt="INI- und HIA-Brief" loading="lazy" width="600" height="1298"><figcaption>Schritt 3: Briefe</figcaption></figure>
+</div>
+<div class="step">
+<div>
+<h3>4. Freischaltung prüfen</h3>
+<p>Hat die Bank freigeschaltet, tippen Sie bei der Verbindung auf „Freischaltung prüfen“. Die App holt die öffentlichen Schlüssel der Bank (HPB) und zeigt deren Prüfwerte in Vierergruppen.</p>
+<p>Vergleichen Sie die Werte Zeichen für Zeichen mit dem Schreiben oder der Webseite Ihrer Bank. Stimmen sie überein, tippen Sie auf „Prüfwerte stimmen überein“. Die Verbindung wird aktiv.</p>
+<div class="warn"><p>Stimmen die Werte nicht überein, tippen Sie auf „Stimmen nicht überein“. Die Verbindung bleibt gesperrt, und es wird nichts mit diesen Schlüsseln abgerufen oder signiert. Wenden Sie sich an Ihre Bank.</p></div>
+</div>
+<figure><img src="images/11-bankschluessel.png" alt="Prüfwerte der Bankschlüssel" loading="lazy" width="600" height="1298"><figcaption>Bankschlüssel prüfen</figcaption></figure>
+</div>
+<h2 id="import">Bestehende Verbindung importieren</h2>
+<div class="step">
+<div>
+<p>Läuft Ihre EBICS-Verbindung schon, etwa in einem anderen Programm, übernehmen Sie sie hier. Die Bank muss nicht erneut freischalten. Tippen Sie in der Bankenliste auf das Symbol neben dem Plus.</p>
+<ol>
+<li><strong>Dateien wählen</strong> oder Text einfügen. Unterstützt sind PEM, PKCS#8, PKCS#12 (.p12 oder .pfx, mit Passwort), Zertifikate (.cer, .crt, .der) und eine Verbindungsdatei (.json).</li>
+<li><strong>Erkanntes prüfen:</strong> Zu jedem Schlüssel wählen Sie die Verwendung. Die App zeigt Prüfwerte und weist auf Fehler hin, etwa fehlende oder doppelte Schlüssel.</li>
+<li><strong>Einstellungen:</strong> Bezeichnung, Firma, URL, Host-ID, Kunden-ID, Teilnehmer-ID, EBICS-Version und Unterschriftsklasse. Eine Verbindungsdatei füllt sie aus.</li>
+<li><strong>Importieren</strong> und mit Face ID bestätigen.</li>
+</ol>
+<p>Danach prüfen Sie wie oben die Bankschlüssel. Haben Sie sie mitgeliefert, nutzt die App diese. Sonst holt sie sie bei der Bank.</p>
+<div class="warn"><p>Nach dem Import liegen Ihre Schlüssel auf zwei Geräten. Fragen Sie bei Bedarf Ihre Bank, ob das erlaubt ist. Bewahren Sie die Dateien sicher auf oder löschen Sie sie.</p></div>
+</div>
+<figure><img src="images/15-import.png" alt="Importbildschirm" loading="lazy" width="600" height="1298"><figcaption>Import</figcaption></figure>
+</div>
+<h3>Aufbau der Verbindungsdatei</h3>
+<p>Alle Felder sind optional. Schlüssel stehen als PEM-Text.</p>
+<pre style="overflow-x:auto;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:1rem;font-size:.85rem;max-width:100%">{
+  "format": "veu-connection", "version": 1,
+  "alias": "Hausbank", "company": "Muster GmbH",
+  "url": "https://ebics.example.de/ebics", "hostID": "EBIXHOST",
+  "partnerID": "PARTNER1", "userID": "USER0001",
+  "ebicsVersion": "H004", "signatureClass": "A",
+  "keys": { "A006": "-----BEGIN PRIVATE KEY-----...", "X002": "...", "E002": "..." },
+  "bankKeys": { "X002": "-----BEGIN CERTIFICATE-----...", "E002": "..." }
+}</pre>
+<h2 id="details">Verbindungsdetails und Löschen</h2>
+<div class="step">
+<div>
+<p>Tippen Sie bei einer aktiven Verbindung auf die Karte. Die Details zeigen Zugangsdaten, EBICS-Version, Unterschriftsklasse und Aktiv-Datum. „Bankschlüssel“ öffnet die Prüfwerte zur erneuten Kontrolle. „Eigene Schlüssel &amp; Briefe“ zeigt die Briefe.</p>
+<p>Über „Bearbeiten“ ändern Sie Bezeichnung und Firma. Andere Angaben ändern Sie, indem Sie die Verbindung neu einrichten.</p>
+</div>
+<figure><img src="images/10-verbindung.png" alt="Verbindungsdetails" loading="lazy" width="600" height="1298"><figcaption>Verbindungsdetails</figcaption></figure>
+</div>
+<div class="step">
+<div>
+<h3>Verbindung löschen</h3>
+<p>„Verbindung löschen“ entfernt endgültig Ihre drei privaten Schlüssel, den Verlauf dieser Verbindung sowie Bankschlüssel und Zugangsdaten. Das lässt sich nicht wiederherstellen. Sie bestätigen mit Face ID.</p>
+<p>Bei Beispielverbindungen können Sie den Zugang zusätzlich bei der Bank sperren lassen. Bei echten Verbindungen geht das in dieser Version noch nicht. Bitten Sie in dem Fall Ihre Bank, den Zugang zu sperren, wenn das iPhone nicht mehr genutzt wird.</p>
+</div>
+<figure><img src="images/16-loeschen.png" alt="Löschen mit Bestätigung" loading="lazy" width="600" height="1298"><figcaption>Verbindung löschen</figcaption></figure>
+</div>
+<h2 id="sicherheit">Sicherheit und Datenschutz</h2>
+<ul>
+<li><strong>Nur Face ID:</strong> Es gibt keine App-PIN. Ein Face-ID-Fehler führt zur Wiederholung. Sperren nach zu vielen Versuchen übernimmt iOS.</li>
+<li><strong>Einmal beim Start, einmal je Unterschrift:</strong> Der Start entsperrt die Verbindungen zum Lesen. Jede Freigabe, Ablehnung oder Sammelfreigabe verlangt eine neue Prüfung.</li>
+<li><strong>Schlüssel:</strong> Ihre privaten Schlüssel liegen verschlüsselt im Schlüsselbund und sind durch den Sicherheitschip des iPhones geschützt. Sie überstehen eine neue Face-ID-Einrichtung, aber nicht das Löschen der App.</li>
+<li><strong>Keine Sicherung:</strong> Schlüssel und Daten sind von iCloud- und Computer-Backups ausgeschlossen.</li>
+<li><strong>Aufträge nur im Speicher:</strong> Zahlungsdaten werden nie gespeichert. Nach dem Sperren sind sie weg.</li>
+<li><strong>Nur Ihre Bank:</strong> Die App verbindet sich nur per HTTPS mit den Servern, die Sie eingerichtet haben. Es gibt keine Analyse und keine Werbung.</li>
+</ul>
+<p>Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+
+<h2 id="hilfe">Fehler und Lösungen</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>Problem</th><th>Ursache und Lösung</th></tr></thead>
+<tbody>
+<tr><td>„Weiter“ ist grau.</td><td>Die App braucht URL und Host-ID für die Serverprüfung. Warten Sie auf „Server erreichbar“. Eine rote Meldung nennt den Grund, etwa eine falsche Adresse. Alle Felder müssen gefüllt sein.</td></tr>
+<tr><td>Face ID ist gesperrt.</td><td>Entsperren Sie das iPhone einmal mit dem Gerätecode. Danach funktioniert Face ID wieder.</td></tr>
+<tr><td>Face ID wird nicht angeboten.</td><td>Richten Sie Face ID in den iOS-Einstellungen ein und erlauben Sie sie für die App unter Einstellungen, Unterschriftenmappe.</td></tr>
+<tr><td>Eine Bank zeigt „Fehler“.</td><td>Der Server war nicht erreichbar oder hat abgelehnt. Tippen Sie auf den Chip oder auf „Erneut verbinden“. Bleibt es, prüfen Sie URL und Host-ID oder fragen Sie Ihre Bank.</td></tr>
+<tr><td>Ein Auftrag zeigt „Auftragsdaten konnten nicht geprüft werden“.</td><td>Die Daten passen nicht zur Prüfsumme der Bank. Der Auftrag lässt sich nicht unterschreiben. Wenden Sie sich an Ihre Bank.</td></tr>
+<tr><td>Ein Eintrag im Verlauf ist „Unklar“.</td><td>Es kam keine Antwort. Aktualisieren Sie die Mappe. Die App löst den Eintrag beim nächsten Abruf auf. Unterschreiben Sie den Auftrag nicht erneut, bevor er geklärt ist.</td></tr>
+<tr><td>Bei der Bank steht „Schlüssel nicht freigeschaltet“.</td><td>Die Bank hat Ihre Briefe noch nicht bearbeitet. Warten Sie auf die Freischaltung und prüfen Sie dann die Bankschlüssel.</td></tr>
+<tr><td>Meine Schlüssel sind weg.</td><td>Das passiert beim Löschen der App oder des Gerätecodes. Importieren Sie Ihre Schlüssel aus einer Sicherung oder richten Sie die Verbindung neu ein. Die Bank muss dann neu freischalten.</td></tr>
+<tr><td>Bei einem echten Auftrag fehlen die Schaltflächen.</td><td>Echte Verbindungen sind derzeit nur lesbar, siehe „Aktueller Funktionsumfang“.</td></tr>
+</tbody></table></div>
+
+<h2 id="glossar">Begriffe</h2>
+<dl>
+<dt>EBICS</dt><dd>Das Verfahren, mit dem Unternehmen und Banken Zahlungsdaten sicher austauschen.</dd>
+<dt>VEU</dt><dd>Verteilte Elektronische Unterschrift. Mehrere Personen unterschreiben denselben Auftrag, jede mit ihrem eigenen Schlüssel.</dd>
+<dt>Unterschriftsklasse</dt><dd>A, B, C oder E berechtigen zur Unterschrift. Klasse T dient nur der Übertragung und darf nicht unterschreiben.</dd>
+<dt>Host-ID, Kunden-ID, Teilnehmer-ID</dt><dd>Die drei Kennungen Ihres Zugangs. Sie stehen im Begrüßungsschreiben der Bank.</dd>
+<dt>INI und HIA</dt><dd>Die beiden Nachrichten, mit denen Ihre öffentlichen Schlüssel zur Bank gehen. Dazu gehören die Briefe.</dd>
+<dt>Prüfwert</dt><dd>Eine Kurzform eines Schlüssels. Sie vergleichen sie, um sicher zu sein, dass Schlüssel nicht ausgetauscht wurden.</dd>
+<dt>Empfängerprüfung</dt><dd>Der Abgleich von Empfängername und IBAN durch die Bank (Verification of Payee).</dd>
+<dt>Echtzeitüberweisung</dt><dd>Eine Überweisung, die sofort ausgeführt wird und nicht zurückgerufen werden kann.</dd>
+</dl>
+
+<footer>Unterschriftenmappe · Benutzerhandbuch · Version 0.1.0 · Stand 11. Oktober 2026 · <a href="index.html">Startseite</a> · <a href="datenschutz.html">Datenschutz</a></footer>
+</main>
+</body>
+</html>
