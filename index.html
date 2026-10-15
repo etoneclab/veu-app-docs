@@ -3,26 +3,333 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unterschriftenmappe</title>
+<title>Unterschriftenmappe – EBICS-VEU-Freigaben auf dem iPhone</title>
+<meta name="description" content="Die Unterschriftenmappe holt offene EBICS-VEU-Aufträge all Ihrer Banken auf das iPhone. Prüfen, mit Face ID unterschreiben oder ablehnen – ohne Benutzerkonto und ohne Anbieter-Server.">
+<meta property="og:title" content="Unterschriftenmappe">
+<meta property="og:description" content="EBICS-VEU-Freigaben auf dem iPhone – prüfen, mit Face ID unterschreiben oder ablehnen.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/02-mappe.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='9' fill='%231A3550'/%3E%3Cpath d='M9 23c3-1 4-9 6-9s0 8 2 8 3-5 5-5 1 4 3 4 2-2 3-3' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
 <style>
-:root { --bg: #FAFAF8; --fg: #0E1B2C; --muted: #4A5568; --accent: #1A3550; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #10151C; --fg: #E8EAED; --muted: #9AA4B2; --accent: #8FB0CE; color-scheme: dark; } }
-:root[data-theme="dark"] { --bg: #10151C; --fg: #E8EAED; --muted: #9AA4B2; --accent: #8FB0CE; color-scheme: dark; }
-body { background: var(--bg); color: var(--fg); font: 1rem/1.65 "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 0 16px; }
-main { max-width: 42rem; margin: 0 auto; padding-block: 3rem; }
-h1 { font-family: Georgia, serif; font-size: 2rem; margin: 0 0 .5rem; }
-p { color: var(--muted); }
+/* Farben und Schriften aus den App-Designs (design/*.dc.html) und dem Benutzerhandbuch. */
+:root {
+  --bg: #FAFAF8; --bg-alt: #F2F3F5; --card: #FFFFFF; --card-inset: #F7F8FA;
+  --fg: #0E1B2C; --muted: #4A5568; --subtle: #5F6673;
+  --accent: #1A3550; --accent-fg: #FFFFFF;
+  --rule: #E1E4E9; --rule-strong: #D5DAE2;
+  --band: #1A3550; --band-fg: #FFFFFF; --band-muted: #D5DDE8; --band-eyebrow: #B9CCE0;
+  --warn-bg: #FBF5E8; --warn-border: #EBDDBA; --warn-fg: #4A3205;
+  --shadow: rgba(14, 27, 44, 0.4);
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10151C; --bg-alt: #141B24; --card: #181F28; --card-inset: #1C2430;
+  --fg: #E8EAED; --muted: #9AA4B2; --subtle: #8A94A3;
+  --accent: #8FB0CE; --accent-fg: #0E1B2C;
+  --rule: #2A313B; --rule-strong: #343C48;
+  --band: #16263A; --band-fg: #FFFFFF; --band-muted: #C3CEDC; --band-eyebrow: #8FB0CE;
+  --warn-bg: #3A2F14; --warn-border: #574620; --warn-fg: #E8C87A;
+  --shadow: rgba(0, 0, 0, 0.6); color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --bg: #10151C; --bg-alt: #141B24; --card: #181F28; --card-inset: #1C2430;
+  --fg: #E8EAED; --muted: #9AA4B2; --subtle: #8A94A3;
+  --accent: #8FB0CE; --accent-fg: #0E1B2C;
+  --rule: #2A313B; --rule-strong: #343C48;
+  --band: #16263A; --band-fg: #FFFFFF; --band-muted: #C3CEDC; --band-eyebrow: #8FB0CE;
+  --warn-bg: #3A2F14; --warn-border: #574620; --warn-fg: #E8C87A;
+  --shadow: rgba(0, 0, 0, 0.6); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 a { color: var(--accent); }
+img { max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 24px; }
+.eyebrow { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h2 { font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12; letter-spacing: -.015em; }
+.lead { margin: 0; font-size: 18px; color: var(--muted); max-width: 36em; }
+.btn { display: inline-flex; align-items: center; min-height: 52px; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 16px; text-decoration: none; }
+.btn-primary { background: var(--accent); color: var(--accent-fg); }
+.btn-primary:hover { filter: brightness(1.12); }
+.btn-secondary { background: var(--card); color: var(--accent); border: 1px solid var(--rule-strong); }
+.btn-secondary:hover { border-color: var(--accent); }
+.shot { display: block; width: 100%; border-radius: 30px; border: 1px solid var(--rule-strong); box-shadow: 0 40px 80px -30px var(--shadow); }
+
+/* Kopfzeile */
+.site-header { border-bottom: 1px solid var(--rule); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; padding-block: 18px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--fg); font-family: var(--display); font-weight: 600; font-size: 21px; letter-spacing: -.01em; }
+.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-size: 15px; font-weight: 500; }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover { color: var(--fg); }
+.site-nav .btn { min-height: 44px; padding: 10px 18px; border-radius: 10px; font-size: 15px; color: var(--accent-fg); }
+
+/* Einstieg */
+.hero .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; padding-block: 80px 96px; }
+.hero-text { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.hero h1 { font-weight: 500; font-size: clamp(40px, 5.6vw, 68px); line-height: 1.04; letter-spacing: -.02em; }
+.hero .lead { font-size: 19px; max-width: 34em; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px; }
+.meta { margin: 0; font-size: 14px; color: var(--subtle); }
+.hero-visual { flex: 1 1 420px; min-width: 0; display: flex; justify-content: center; }
+.phones { position: relative; width: 100%; max-width: 540px; aspect-ratio: 540 / 640; }
+.phones img { position: absolute; }
+.phones .back { right: 0; top: 7%; width: 47%; border-radius: 28px; }
+.phones .front { left: 4%; top: 0; width: 51%; }
+
+/* Vorteile */
+.facts { background: var(--card); border-block: 1px solid var(--rule); }
+.facts .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px 32px; padding-block: 28px; }
+.fact { display: flex; gap: 12px; align-items: flex-start; }
+.fact svg { flex: none; margin-top: 3px; color: var(--accent); }
+.fact strong { display: block; font-weight: 600; }
+.fact span { font-size: 15px; color: var(--muted); }
+
+/* Ablauf */
+.steps { background: var(--bg-alt); }
+.steps .wrap { display: flex; flex-direction: column; gap: 48px; padding-block: 96px; }
+.section-head { display: flex; flex-direction: column; gap: 14px; max-width: 640px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+.card-body { padding: 28px 28px 24px; display: flex; flex-direction: column; gap: 10px; }
+.card-num { font-family: var(--mono); font-size: 13px; color: var(--subtle); }
+.card h3 { font-weight: 600; font-size: 26px; line-height: 1.2; }
+.card p { margin: 0; color: var(--muted); font-size: 16px; }
+.card-shot { margin-top: auto; padding: 28px 36px 0; height: 360px; overflow: hidden; background: var(--card-inset); border-top: 1px solid var(--rule); }
+.card-shot img { display: block; width: 100%; border-radius: 22px 22px 0 0; border: 1px solid var(--rule-strong); border-bottom: 0; }
+
+/* Sicherheit */
+.security { background: var(--band); color: var(--band-fg); }
+.security .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 64px; padding-block: 104px; }
+.security .eyebrow { color: var(--band-eyebrow); }
+.security .lead { color: var(--band-muted); }
+.security-text { flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
+.points { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px 40px; padding-top: 8px; }
+.points div { border-top: 1px solid rgba(255, 255, 255, .22); padding-top: 16px; }
+.points strong { display: block; font-weight: 600; font-size: 17px; }
+.points span { display: block; font-size: 15px; color: var(--band-muted); padding-top: 4px; }
+.security a { color: var(--band-fg); font-weight: 600; text-underline-offset: 4px; }
+.side-shot { flex: 0 1 300px; min-width: 0; margin: 0 auto; }
+.side-shot .shot { max-width: 300px; }
+.security .shot { border-color: rgba(255, 255, 255, .18); }
+
+/* Bankverbindungen */
+.banks .wrap { display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 64px; padding-block: 104px; }
+.banks-text { flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.setup { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.setup li { display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+.setup li > span:first-child { font-family: var(--mono); font-size: 14px; color: var(--accent); padding-top: 2px; }
+.setup strong { font-weight: 600; }
+.note { margin: 0; font-size: 15px; color: var(--subtle); }
+
+/* Stand */
+.status { background: var(--bg-alt); }
+.status .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; padding-block: 80px; }
+.box { background: var(--card); border: 1px solid var(--rule); border-radius: 18px; padding: 32px; display: flex; flex-direction: column; gap: 16px; }
+.box h2 { font-weight: 600; font-size: 26px; line-height: 1.2; letter-spacing: 0; }
+.box ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
+.box p { margin: 0; font-size: 16px; }
+.box.warn { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-fg); }
+
+/* Abschluss */
+.closing .wrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px; padding-block: 104px; }
+.closing h2 { font-size: clamp(30px, 4vw, 50px); line-height: 1.1; max-width: 18em; }
+
+/* Fußzeile */
+.site-footer { border-top: 1px solid var(--rule); }
+.site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 32px; padding-block: 32px 40px; font-size: 14px; color: var(--subtle); }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.site-footer a { color: var(--muted); }
+
+@media (max-width: 560px) {
+  .hero .wrap { padding-block: 48px 64px; }
+  .steps .wrap, .security .wrap, .banks .wrap, .closing .wrap { padding-block: 72px; }
+  .card-shot { height: 300px; padding-inline: 24px; }
+}
 </style>
 </head>
 <body>
-<main>
-<h1>Unterschriftenmappe</h1>
-<p>Die mobile Unterschriftenmappe für EBICS-VEU-Freigaben.</p>
+
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="#top">
+<svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="9" fill="#1A3550"/><path d="M9 23c3-1 4-9 6-9s0 8 2 8 3-5 5-5 1 4 3 4 2-2 3-3" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 27h18" stroke="#8FB0CE" stroke-width="1.4" stroke-linecap="round"/></svg>
+Unterschriftenmappe
+</a>
+<nav class="site-nav" aria-label="Hauptnavigation">
+<a href="#ablauf">Ablauf</a>
+<a href="#sicherheit">Sicherheit</a>
+<a href="#banken">Bankverbindungen</a>
+<a href="datenschutz.html">Datenschutz</a>
+<a class="btn btn-primary" href="benutzerhandbuch.html">Benutzerhandbuch</a>
+</nav>
+</div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+<div class="wrap">
+<div class="hero-text">
+<p class="eyebrow">EBICS · Verteilte Elektronische Unterschrift</p>
+<h1>Zahlungen freigeben, wo Sie gerade sind.</h1>
+<p class="lead">Die Unterschriftenmappe holt die offenen VEU-Aufträge all Ihrer Banken auf das iPhone. Sie prüfen jeden Auftrag, unterschreiben mit Face ID oder lehnen ab – ohne Benutzerkonto und ohne Server zwischen Ihnen und Ihrer Bank.</p>
+<div class="actions">
+<a class="btn btn-primary" href="benutzerhandbuch.html">Benutzerhandbuch lesen</a>
+<a class="btn btn-secondary" href="#sicherheit">So schützt die App Ihre Schlüssel</a>
+</div>
+<p class="meta">Für iPhone ab iOS 17 · EBICS 2.5 und 3.0 · Version 0.2.0</p>
+</div>
+<div class="hero-visual">
+<div class="phones">
+<img class="shot back" src="images/03-detail.png" width="600" height="1298" alt="Auftragsdetail mit Posten, Unterschriftenstand und den Schaltflächen Ablehnen und Freigeben">
+<img class="shot front" src="images/02-mappe.png" width="600" height="1298" alt="Die Mappe: offene Aufträge von zwei Banken, nach Tagen gruppiert">
+</div>
+</div>
+</div>
+</section>
+
+<section class="facts" aria-label="Kurz gesagt">
+<div class="wrap">
+<div class="fact">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+<div><strong>Eine Mappe für alle Banken</strong><span>Offene Aufträge mehrerer EBICS-Zugänge in einer Liste.</span></div>
+</div>
+<div class="fact">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H6a2 2 0 0 0-2 2v2M16 4h2a2 2 0 0 1 2 2v2M8 20H6a2 2 0 0 1-2-2v-2M16 20h2a2 2 0 0 0 2-2v-2M9 10v1M15 10v1M12 10v3h-1M9.5 16c1.5 1 3.5 1 5 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div><strong>Face ID für jede Unterschrift</strong><span>Keine PIN, kein Passwort. Jede Freigabe wird neu bestätigt.</span></div>
+</div>
+<div class="fact">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+<div><strong>Schlüssel bleiben auf dem iPhone</strong><span>Geschützt durch Schlüsselbund und Secure Enclave.</span></div>
+</div>
+<div class="fact">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.5 17.5l11-11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+<div><strong>Keine Daten erfasst</strong><span>Kein Konto, kein Tracking, keine Absturzberichte.</span></div>
+</div>
+</div>
+</section>
+
+<section class="steps" id="ablauf">
+<div class="wrap">
+<div class="section-head">
+<p class="eyebrow">Ablauf</p>
+<h2>Vom Eingang bis zur Unterschrift in drei Schritten.</h2>
+</div>
+<div class="cards">
+<article class="card">
+<div class="card-body">
+<div class="card-num">01</div>
+<h3>Mappe öffnen</h3>
+<p>Nach Face ID ruft die App alle Banken ab. Aufträge erscheinen nach Tagen gegliedert, mit Betrag, Auftragsart und fehlenden Unterschriften.</p>
+</div>
+<div class="card-shot"><img src="images/02-mappe.png" width="600" height="1298" loading="lazy" alt="Mappe mit offenen Aufträgen"></div>
+</article>
+<article class="card">
+<div class="card-body">
+<div class="card-num">02</div>
+<h3>Auftrag prüfen</h3>
+<p>Jeder Auftrag wird gegen die Prüfsumme der Bank abgeglichen. Posten mit Hinweis der Empfängerprüfung stehen oben und sind markiert.</p>
+</div>
+<div class="card-shot"><img src="images/03-detail.png" width="600" height="1298" loading="lazy" alt="Auftragsdetail mit Prüfzeile und Posten"></div>
+</article>
+<article class="card">
+<div class="card-body">
+<div class="card-num">03</div>
+<h3>Freigeben oder ablehnen</h3>
+<p>Einzeln oder als Sammelfreigabe mit einer Face-ID-Prüfung. Die App unterschreibt jeden Auftrag einzeln und meldet jedes Ergebnis.</p>
+</div>
+<div class="card-shot"><img src="images/06-sammelfreigabe.png" width="600" height="1298" loading="lazy" alt="Sammelfreigabe mehrerer Aufträge, nach Bank zusammengefasst"></div>
+</article>
+</div>
+</div>
+</section>
+
+<section class="security" id="sicherheit">
+<div class="wrap">
+<div class="security-text">
+<p class="eyebrow">Sicherheit und Datenschutz</p>
+<h2>Zwischen Ihnen und Ihrer Bank steht niemand.</h2>
+<p class="lead">Die App spricht ausschließlich mit den Bankservern, die Sie selbst einrichten. Es gibt keinen Server des Anbieters, der Aufträge sieht oder speichert.</p>
+<div class="points">
+<div><strong>Schlüssel verlassen das Gerät nie</strong><span>Ihre privaten EBICS-Schlüssel entstehen auf dem iPhone und liegen im Schlüsselbund, geschützt durch die Secure Enclave.</span></div>
+<div><strong>Aufträge nur im Arbeitsspeicher</strong><span>Empfänger, IBANs und Beträge werden nicht dauerhaft gespeichert und beim Sperren verworfen.</span></div>
+<div><strong>Sperre nach 3 Minuten</strong><span>Ohne Berührung oder im Hintergrund sperrt sich die App. Im App-Umschalter verdeckt ein Sichtschutz alle Beträge.</span></div>
+<div><strong>Bankschlüssel bestätigt</strong><span>Eine Verbindung wird erst aktiv, wenn Sie die Fingerabdrücke der Bankschlüssel abgeglichen haben.</span></div>
+</div>
+<a href="datenschutz.html">Datenschutzerklärung lesen</a>
+</div>
+<div class="side-shot">
+<img class="shot" src="images/11-bankschluessel.png" width="600" height="1298" loading="lazy" alt="Prüfung der Bankschlüssel mit Fingerabdrücken">
+</div>
+</div>
+</section>
+
+<section class="banks" id="banken">
+<div class="wrap">
+<div class="side-shot">
+<img class="shot" src="images/09-banken.png" width="600" height="1298" loading="lazy" alt="Bankenliste mit Status der Verbindungen">
+</div>
+<div class="banks-text">
+<p class="eyebrow">Bankverbindungen</p>
+<h2>Neu einrichten oder bestehenden Zugang importieren.</h2>
+<p class="lead">Sie brauchen nur die Zugangsdaten aus dem Begrüßungsschreiben Ihrer Bank. Die App führt Sie durch die Einrichtung.</p>
+<ol class="setup">
+<li><span>1</span><span><strong>Zugangsdaten</strong> – Bankserver-URL, Host-ID, Kunden-ID und Teilnehmer-ID eingeben.</span></li>
+<li><span>2</span><span><strong>Schlüssel</strong> – die App erzeugt Ihre EBICS-Schlüssel auf dem Gerät.</span></li>
+<li><span>3</span><span><strong>Briefe</strong> – Initialisierungsbriefe erstellen, unterschreiben und an die Bank senden.</span></li>
+<li><span>4</span><span><strong>Freischaltung prüfen</strong> – sobald die Bank freischaltet, Bankschlüssel abgleichen.</span></li>
+</ol>
+<p class="note">Einen bestehenden Zugang übernehmen Sie per Schlüsseldatei oder JSON-Import.</p>
+</div>
+</div>
+</section>
+
+<section class="status" aria-label="Voraussetzungen und aktueller Stand">
+<div class="wrap">
+<div class="box">
+<h2>Voraussetzungen</h2>
 <ul>
-<li><a href="benutzerhandbuch.html">Benutzerhandbuch</a></li>
-<li><a href="datenschutz.html">Datenschutzerklärung</a></li>
+<li>iPhone mit iOS 17 oder neuer, mit Gerätecode und Face ID oder Touch ID</li>
+<li>EBICS-Zugang mit Unterschriftsberechtigung (Klasse A, B, C oder E) und aktivierter VEU</li>
+<li>Zugangsdaten aus dem Begrüßungsschreiben Ihrer Bank</li>
 </ul>
+</div>
+<div class="box warn">
+<h2>Aktueller Funktionsumfang</h2>
+<p>Echte Bankverbindungen sind zunächst nur lesbar. Das Unterschreiben schalten Sie pro Verbindung selbst frei.</p>
+<p>Im echten Betrieb geprüft mit der GLS Gemeinschaftsbank über Multivia (EBICS 3.0). Andere Banken und EBICS 2.5 sind noch nicht erprobt.</p>
+</div>
+</div>
+</section>
+
+<section class="closing">
+<div class="wrap">
+<h2>Alles Weitere steht im Benutzerhandbuch.</h2>
+<p class="lead">Einrichtung, Freigabe, Verlauf, Fehlermeldungen und Begriffe – Schritt für Schritt mit Bildschirmfotos.</p>
+<a class="btn btn-primary" href="benutzerhandbuch.html">Zum Benutzerhandbuch</a>
+</div>
+</section>
+
 </main>
+
+<footer class="site-footer">
+<div class="wrap">
+<div>Unterschriftenmappe ist ein Angebot der sideos GmbH, Möckernstr. 120, 10963 Berlin.</div>
+<nav aria-label="Rechtliches">
+<a href="benutzerhandbuch.html">Benutzerhandbuch</a>
+<a href="datenschutz.html">Datenschutz</a>
+<!-- TODO: Impressum (§ 5 DDG) ergänzen, z. B. <a href="impressum.html">Impressum</a> -->
+</nav>
+</div>
+</footer>
+
 </body>
 </html>
