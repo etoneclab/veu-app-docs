@@ -65,7 +65,7 @@ footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1rem;
 <header>
 <p class="eyebrow">Unterschriftenmappe</p>
 <h1>Benutzerhandbuch</h1>
-<p class="stand">Version 0.1.0 · Stand 11. Oktober 2026</p>
+<p class="stand">Version 0.2.0 · Stand 15. Oktober 2026</p>
 </header>
 
 <nav class="toc" aria-label="Inhalt">
@@ -108,9 +108,17 @@ footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1rem;
 </ul>
 
 <h2 id="umfang">Aktueller Funktionsumfang</h2>
-<div class="warn"><p><strong>Echte Bankverbindungen sind derzeit nur lesbar.</strong> Die App ruft Aufträge ab und prüft sie, aber das Freigeben und Ablehnen ist für echte Verbindungen noch gesperrt. Die Beispielverbindungen zeigen den vollständigen Ablauf mit erfundenen Daten.</p></div>
-<p>Bei einer echten Verbindung fehlen deshalb die Schaltflächen „Freigeben“ und „Ablehnen“. Stattdessen steht auf dem Auftrag der Hinweis „Nur Lesezugriff“. Die Verbindung trägt in der Bankenliste die Kennzeichnung „Echte Verbindung · nur Lesezugriff“. Sobald das Unterschreiben freigeschaltet ist, wird dieses Handbuch ergänzt.</p>
-<p>Nicht enthalten ist außerdem das Sperren des Zugangs bei der Bank aus der App heraus. Bitten Sie in diesem Fall Ihre Bank darum.</p>
+<div class="warn"><p><strong>Echte Bankverbindungen sind zunächst nur lesbar.</strong> Das Freigeben und Ablehnen schalten Sie für jede Verbindung selbst frei, siehe unten. Die Beispielverbindungen zeigen den vollständigen Ablauf mit erfundenen Daten.</p></div>
+<p>Solange das Unterschreiben für eine echte Verbindung nicht freigegeben ist, fehlen die Schaltflächen „Freigeben“ und „Ablehnen“. Stattdessen steht auf dem Auftrag der Hinweis „Nur Lesezugriff“. Die Verbindung trägt in der Bankenliste die Kennzeichnung „Echte Verbindung · nur Lesezugriff“.</p>
+<h3>Unterschreiben für eine echte Verbindung freigeben</h3>
+<ol>
+<li>Öffnen Sie im Reiter „Banken“ die Verbindungsdetails.</li>
+<li>Schalten Sie „Unterschreiben freigeben“ ein.</li>
+<li>Lesen Sie den Hinweis, dass jede Unterschrift verbindlich ist und Echtzeitüberweisungen nicht zurückgerufen werden können. Bestätigen Sie mit Face ID.</li>
+</ol>
+<p>Ausschalten geht jederzeit ohne Face ID. Die Freigabe gilt nur für diese Verbindung.</p>
+<div class="note"><p><strong>Hinweis:</strong> Das Unterschreiben wurde bisher mit einer Bank (GLS Gemeinschaftsbank über Multivia, EBICS 3.0) im echten Betrieb geprüft. Bei anderen Banken und bei EBICS 2.5 ist es noch nicht erprobt. Probieren Sie es zuerst mit einem Auftrag von geringem Wert.</p></div>
+<p>Nicht enthalten ist das Sperren des Zugangs bei der Bank aus der App heraus. Bitten Sie in diesem Fall Ihre Bank darum.</p>
 <h2 id="anmelden">Anmelden und sperren</h2>
 <div class="step">
 <div>
@@ -158,6 +166,7 @@ footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1rem;
 <div class="note"><p><strong>Wichtig:</strong> Weicht die Prüfsumme ab, blendet die App die Schaltflächen aus und zeigt „Auftragsdaten konnten nicht geprüft werden“. Der Auftrag lässt sich dann nicht unterschreiben. Wenden Sie sich an Ihre Bank. Kann die App den Inhalt nicht unabhängig prüfen, steht „Posten nicht unabhängig geprüft“. Dann müssen Sie das vor der Freigabe ausdrücklich bestätigen.</p></div>
 <h3>Hinweis der Empfängerprüfung</h3>
 <p>Die Empfängerprüfung (Verification of Payee) gleicht Name und IBAN eines Empfängers ab. Meldet die Bank eine Abweichung, zeigt die App den Namen, den Sie eingegeben haben, und den Namen, den die Bank kennt. Prüfen Sie den Posten sorgfältig. Wer trotz Hinweis freigibt, trägt das Risiko. Die App protokolliert deshalb Ihre Bestätigung.</p>
+<p>Die App liest das Ergebnis der Empfängerprüfung derzeit nur bei EBICS-2.5-Verbindungen ein, die es liefern (erprobt bei der GLS Gemeinschaftsbank). Sonst steht am Posten „Empfängerprüfung: nicht durchgeführt“. Das blockiert den Auftrag nicht, bedeutet aber auch nicht, dass der Empfänger stimmt.</p>
 <h2 id="freigeben">Freigeben</h2>
 <div class="step">
 <div>
@@ -291,7 +300,7 @@ footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1rem;
 <div class="step">
 <div>
 <p>Tippen Sie bei einer aktiven Verbindung auf die Karte. Die Details zeigen Zugangsdaten, EBICS-Version, Unterschriftsklasse und Aktiv-Datum. „Bankschlüssel“ öffnet die Prüfwerte zur erneuten Kontrolle. „Eigene Schlüssel &amp; Briefe“ zeigt die Briefe.</p>
-<p>Über „Bearbeiten“ ändern Sie Bezeichnung und Firma. Andere Angaben ändern Sie, indem Sie die Verbindung neu einrichten.</p>
+<p>Bei echten Verbindungen finden Sie hier auch den Schalter „Unterschreiben freigeben“, siehe „Aktueller Funktionsumfang“. Über „Bearbeiten“ ändern Sie Bezeichnung und Firma. Andere Angaben ändern Sie, indem Sie die Verbindung neu einrichten.</p>
 </div>
 <figure><img src="images/10-verbindung.png" alt="Verbindungsdetails" loading="lazy" width="600" height="1298"><figcaption>Verbindungsdetails</figcaption></figure>
 </div>
@@ -326,7 +335,7 @@ footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1rem;
 <tr><td>Ein Eintrag im Verlauf ist „Unklar“.</td><td>Es kam keine Antwort. Aktualisieren Sie die Mappe. Die App löst den Eintrag beim nächsten Abruf auf. Unterschreiben Sie den Auftrag nicht erneut, bevor er geklärt ist.</td></tr>
 <tr><td>Bei der Bank steht „Schlüssel nicht freigeschaltet“.</td><td>Die Bank hat Ihre Briefe noch nicht bearbeitet. Warten Sie auf die Freischaltung und prüfen Sie dann die Bankschlüssel.</td></tr>
 <tr><td>Meine Schlüssel sind weg.</td><td>Das passiert beim Löschen der App oder des Gerätecodes. Importieren Sie Ihre Schlüssel aus einer Sicherung oder richten Sie die Verbindung neu ein. Die Bank muss dann neu freischalten.</td></tr>
-<tr><td>Bei einem echten Auftrag fehlen die Schaltflächen.</td><td>Echte Verbindungen sind derzeit nur lesbar, siehe „Aktueller Funktionsumfang“.</td></tr>
+<tr><td>Bei einem echten Auftrag fehlen die Schaltflächen.</td><td>Das Unterschreiben ist für diese Verbindung noch nicht freigegeben. Schalten Sie es in den Verbindungsdetails ein, siehe „Aktueller Funktionsumfang“.</td></tr>
 </tbody></table></div>
 
 <h2 id="glossar">Begriffe</h2>
@@ -341,7 +350,7 @@ footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1rem;
 <dt>Echtzeitüberweisung</dt><dd>Eine Überweisung, die sofort ausgeführt wird und nicht zurückgerufen werden kann.</dd>
 </dl>
 
-<footer>Unterschriftenmappe · Benutzerhandbuch · Version 0.1.0 · Stand 11. Oktober 2026 · <a href="index.html">Startseite</a> · <a href="datenschutz.html">Datenschutz</a></footer>
+<footer>Unterschriftenmappe · Benutzerhandbuch · Version 0.2.0 · Stand 15. Oktober 2026 · <a href="index.html">Startseite</a> · <a href="datenschutz.html">Datenschutz</a></footer>
 </main>
 </body>
 </html>
