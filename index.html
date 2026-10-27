@@ -68,6 +68,9 @@ h2 { font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12; l
 .site-nav a { color: var(--muted); text-decoration: none; }
 .site-nav a:hover { color: var(--fg); }
 .site-nav .btn { min-height: 44px; padding: 10px 18px; border-radius: 10px; font-size: 15px; color: var(--accent-fg); }
+/* Link to the sister app Keybics (macOS), with its icon. */
+.site-nav .sibling { display: inline-flex; align-items: center; gap: 8px; }
+.site-nav .sibling img { width: 22px; height: 22px; }
 
 /* Einstieg */
 .hero .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; padding-block: 80px 96px; }
@@ -167,6 +170,7 @@ Unterschriftenmappe
 <a href="#banken">Bankverbindungen</a>
 <a href="support.html">Support</a>
 <a href="datenschutz.html">Datenschutz</a>
+<a class="sibling" href="https://etoneclab.github.io/keybics-doc/" title="Keybics: EBICS-Schlüssel für den Mac"><img src="images/keybics-icon-64.png" width="22" height="22" alt="">Keybics</a>
 <a class="btn btn-primary" href="benutzerhandbuch.html">Benutzerhandbuch</a>
 </nav>
 </div>
