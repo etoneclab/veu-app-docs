@@ -7,6 +7,9 @@ Static site for the EBICS VEU iOS app, served through GitHub Pages.
 | `index.html` | Landing page |
 | `benutzerhandbuch.html` | User manual (German), screenshots in `images/` |
 | `datenschutz.html` | Privacy policy |
+| `support.html` | Support contact (support URL in App Store Connect) |
+| `impressum.html` | Imprint (§ 5 DDG) |
+| `fonts/` | Self-hosted fonts (SIL Open Font License), so no page loads anything from Google |
 
 **Do not move or rename `datenschutz.html`.** Its URL is registered in App Store Connect.
 
